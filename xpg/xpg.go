@@ -25,7 +25,7 @@ func NewConnectionPool(ctx context.Context, cfg *config.PGDB, tracer trace.Trace
 	// setting tracer
 	config.ConnConfig.Tracer = NewQuerierTracer(tracer)
 
-	pgxConn, err := pgxpool.NewWithConfig(context.Background(), config)
+	pgxConn, err := pgxpool.NewWithConfig(ctx, config)
 	if err != nil {
 		return nil, fmt.Errorf("creating new pgxpool: %w", err)
 	}
