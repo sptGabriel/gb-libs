@@ -9,6 +9,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
+// NewConnectionPool creates a pgxpool with tracing, connection limits, and health check.
 func NewConnectionPool(ctx context.Context, cfg *config.PGDB, tracer trace.Tracer) (*pgxpool.Pool, error) {
 	config, err := pgxpool.ParseConfig(cfg.ConnectionString())
 	if err != nil {
