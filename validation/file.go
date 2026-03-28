@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/sptGabriel/libs/iterables"
+	"github.com/sptGabriel/defaults/iterables"
 )
 
 var ErrInvalidFileSignature = errors.New("invalid file signature")

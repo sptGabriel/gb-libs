@@ -88,7 +88,7 @@ func LoadConfig() *AppConfig {
 
 		envName := strings.ToLower(strings.TrimSpace(cfg.Environment))
 		if !slices.Contains(allowedEnvs, envName) {
-			panic(fmt.Sprintf("invalid env value %xs", envName))
+			panic(fmt.Sprintf("invalid env value %s", envName))
 		}
 
 		cfg.Environment = envName

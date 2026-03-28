@@ -37,10 +37,10 @@ func (agg *Aggregate) ClearEvents() {
 
 func (agg *Aggregate) AddEvent(event DomainEventer) error {
 	if event.Id().IsEmpty() {
-		return errors.New("não é possível adicionar evento com ID vazio")
+		return errors.New("cannot add event with empty ID")
 	}
 	if event.CreatedAt().IsZero() {
-		return errors.New("não é possível adicionar evento sem data de criação")
+		return errors.New("cannot add event without creation date")
 	}
 	agg.domainEvents[event.Id()] = event
 	return nil

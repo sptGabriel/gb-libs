@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/go-playground/assert/v2"
-	"github.com/sptGabriel/libs/text"
 )
 
 func TestRemoveDiacritics(t *testing.T) {
@@ -26,7 +25,7 @@ func TestRemoveDiacritics(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			actual := text.RemoveDiacritics(tc.input)
+			actual := RemoveDiacritics(tc.input)
 			assert.Equal(t, tc.expected, actual)
 		})
 	}
