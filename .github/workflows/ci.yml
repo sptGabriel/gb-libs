@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changed-modules:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.changed.outputs.modules }}
+      has_modules: ${{ steps.changed.outputs.has_modules }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: changed
+        name: Detect changed modules
+        run: |
+          set -euo pipefail
+
+          # Get changed files
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          else
+            changed=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff-tree --no-commit-id --name-only -r HEAD)
+          fi
+
+          echo "Changed files:"
+          echo "$changed"
+          echo "---"
+
+          # Find all modules
+          all_modules=$(find . -name 'go.mod' -not -path '*/vendor/*' -exec dirname {} \; | sed 's|^\./||' | sort)
+
+          # Map changed files to their owning module
+          matched_modules=""
+          for file in $changed; do
+            best_match=""
+            best_len=0
+
+            for mod in $all_modules; do
+              if [ "$mod" = "." ]; then
+                continue
+              fi
+              if echo "$file" | grep -q "^${mod}/"; then
+                mod_len=${#mod}
+                if [ "$mod_len" -gt "$best_len" ]; then
+                  best_match="$mod"
+                  best_len=$mod_len
+                fi
+              fi
+            done
+
+            if [ -z "$best_match" ]; then
+              # File belongs to root module
+              best_match="."
+            fi
+
+            matched_modules="$matched_modules $best_match"
+          done
+
+          # Deduplicate and format as JSON array
+          modules=$(echo "$matched_modules" | tr ' ' '\n' | grep -v '^$' | sort -u | jq -R -s -c 'split("\n") | map(select(. != "")) | map(if . == "." then "." else "./\(.)" end)')
+
+          echo "Modules to test: $modules"
+
+          if [ "$modules" = "[]" ] || [ -z "$modules" ]; then
+            echo "has_modules=false" >> "$GITHUB_OUTPUT"
+            echo "modules=[]" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_modules=true" >> "$GITHUB_OUTPUT"
+            echo "modules=$modules" >> "$GITHUB_OUTPUT"
+          fi
+
+  lint-build-test:
+    needs: detect-changed-modules
+    if: needs.detect-changed-modules.outputs.has_modules == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJson(needs.detect-changed-modules.outputs.modules) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: "**/go.sum"
+
+      - name: Go vet
+        working-directory: ${{ matrix.module }}
+        env:
+          GOWORK: "off"
+        run: go vet ./...
+
+      - name: Go build
+        working-directory: ${{ matrix.module }}
+        env:
+          GOWORK: "off"
+        run: go build ./...
+
+      - name: Go test
+        working-directory: ${{ matrix.module }}
+        env:
+          GOWORK: "off"
+        run: go test -short -count=1 -race ./...

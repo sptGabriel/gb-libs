@@ -1,0 +1,159 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed modules and create releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # All module directories (relative to repo root)
+          MODULES=$(find . -name 'go.mod' -not -path '*/vendor/*' -exec dirname {} \; | sort)
+
+          # Get the previous commit on main (the one before this push)
+          PREV_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo "")
+          if [ -z "$PREV_SHA" ]; then
+            echo "First commit on main, tagging all modules"
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          else
+            CHANGED_FILES=$(git diff --name-only "$PREV_SHA" HEAD)
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          echo "---"
+
+          for mod in $MODULES; do
+            # Normalize path: remove leading ./
+            mod_clean="${mod#./}"
+
+            # Check if any changed file belongs to this module
+            if [ "$mod_clean" = "." ]; then
+              # Root module: check files not in any sub-module
+              module_prefix=""
+              tag_prefix="v"
+              module_name="defaults"
+            else
+              module_prefix="$mod_clean/"
+              tag_prefix="${mod_clean}/v"
+              module_name="$mod_clean"
+            fi
+
+            # Determine if this module has changes
+            has_changes=false
+            for file in $CHANGED_FILES; do
+              if [ "$mod_clean" = "." ]; then
+                # Root module: file must not be inside any sub-module
+                in_submodule=false
+                for other_mod in $MODULES; do
+                  other_clean="${other_mod#./}"
+                  if [ "$other_clean" != "." ] && echo "$file" | grep -q "^${other_clean}/"; then
+                    in_submodule=true
+                    break
+                  fi
+                done
+                if [ "$in_submodule" = false ]; then
+                  has_changes=true
+                  break
+                fi
+              else
+                if echo "$file" | grep -q "^${module_prefix}"; then
+                  has_changes=true
+                  break
+                fi
+              fi
+            done
+
+            if [ "$has_changes" = false ]; then
+              echo "[$module_name] No changes, skipping"
+              continue
+            fi
+
+            # Only release on fix or feat commits
+            if [ -n "$PREV_SHA" ]; then
+              commits=$(git log --oneline "$PREV_SHA"..HEAD -- "${module_prefix:-.}" 2>/dev/null || echo "")
+            else
+              commits=$(git log --oneline HEAD -- "${module_prefix:-.}" 2>/dev/null || echo "")
+            fi
+
+            if ! echo "$commits" | grep -qiE "^[a-f0-9]+ (fix|feat)(\(.+\))?\!?:"; then
+              echo "[$module_name] No fix/feat commits, skipping release"
+              continue
+            fi
+
+            # Find the latest tag for this module
+            latest_tag=$(git tag -l "${tag_prefix}*" --sort=-v:refname | head -1 || echo "")
+
+            if [ -z "$latest_tag" ]; then
+              new_version="0.1.0"
+            else
+              # Extract version numbers
+              version="${latest_tag#$tag_prefix}"
+              major=$(echo "$version" | cut -d. -f1)
+              minor=$(echo "$version" | cut -d. -f2)
+              patch=$(echo "$version" | cut -d. -f3)
+
+              if echo "$commits" | grep -qiE "^[a-f0-9]+ (fix|feat)(\(.+\))?\!:"; then
+                # Breaking change (feat! or fix!)
+                major=$((major + 1))
+                minor=0
+                patch=0
+              elif echo "$commits" | grep -qiE "^[a-f0-9]+ feat"; then
+                # New feature
+                minor=$((minor + 1))
+                patch=0
+              else
+                # Bug fix
+                patch=$((patch + 1))
+              fi
+
+              new_version="${major}.${minor}.${patch}"
+            fi
+
+            new_tag="${tag_prefix}${new_version}"
+
+            echo "[$module_name] Creating tag $new_tag"
+
+            git tag "$new_tag"
+            git push origin "$new_tag"
+
+            # Build release notes from commits since last tag
+            if [ -n "$latest_tag" ]; then
+              notes=$(git log --oneline "$latest_tag"..HEAD -- "${module_prefix:-.}" | sed 's/^[a-f0-9]* /- /')
+            else
+              notes=$(git log --oneline HEAD -- "${module_prefix:-.}" | sed 's/^[a-f0-9]* /- /')
+            fi
+
+            if [ -z "$notes" ]; then
+              notes="- Initial release"
+            fi
+
+            # Create GitHub release
+            gh release create "$new_tag" \
+              --title "$module_name $new_tag" \
+              --notes "## Changes
+
+          $notes
+
+          ## Usage
+          \`\`\`
+          go get github.com/sptGabriel/defaults/${module_prefix}@${new_tag}
+          \`\`\`" \
+              --latest=false
+
+            echo "[$module_name] Released $new_tag"
+          done
