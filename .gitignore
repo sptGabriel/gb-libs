@@ -30,3 +30,8 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Go workspace (local development only)
+go.work
+go.work.sum
+go.work.sum
