@@ -24,7 +24,7 @@ func (t *transactioner) With(ctx context.Context, fn func(context.Context) error
 		return fn(ctx)
 	}
 
-	if t.db.tracer == nil {
+	if t.db.tracer != nil {
 		newctx, span := t.db.tracer.Start(ctx, transactionTraceSpan)
 		defer span.End()
 

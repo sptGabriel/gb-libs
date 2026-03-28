@@ -12,9 +12,10 @@ const (
 	LevelDebug Level = iota + 1
 	// LevelInfo tracks standard operational events
 	LevelInfo
+	// LevelWarn indicates potential issues worth monitoring
+	LevelWarn
 	// LevelError indicates failures requiring attention
 	LevelError
-	LevelWarn
 )
 
 // Logger provides structured logging capabilities with multiple severity levels

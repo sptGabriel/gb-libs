@@ -76,6 +76,7 @@ func (c *Client) connect() error {
 	conn, err := amqp.Dial(c.config.ConnectionUrl)
 	if err != nil {
 		c.logger.Error("failed to dial connection", "error", err)
+		return err
 	}
 
 	c.changeConnection(conn)
