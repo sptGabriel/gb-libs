@@ -1,0 +1,25 @@
+version: "2"
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+    - golines
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/repo)
+        - localmodule
+        - alias
+        - blank
+        - dot
+      custom-order: true
+    gofumpt:
+      extra-rules: true
+    golines:
+      max-len: 120
+
+linters:
+  default: standard
