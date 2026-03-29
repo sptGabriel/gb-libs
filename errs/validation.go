@@ -3,7 +3,7 @@ package errs
 import (
 	"strings"
 
-	"github.com/sptGabriel/defaults/iterables"
+	"github.com/sptGabriel/gb-libs/iterables"
 )
 
 type validationErrMessage struct {

@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/sptGabriel/defaults/fstorage"
+	"github.com/sptGabriel/gb-libs/fstorage"
 )
 
 const defaultRegion = "us-east-1"

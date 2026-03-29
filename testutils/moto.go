@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/xlog"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )

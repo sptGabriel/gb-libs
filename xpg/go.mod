@@ -1,11 +1,11 @@
-module github.com/sptGabriel/defaults/xpg
+module github.com/sptGabriel/gb-libs/xpg
 
 go 1.25.0
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.0
 	github.com/jackc/pgx/v5 v5.6.0
-	github.com/sptGabriel/defaults v0.0.0
+	github.com/sptGabriel/gb-libs v0.0.0
 	go.opentelemetry.io/otel v1.39.0
 	go.opentelemetry.io/otel/trace v1.39.0
 )
@@ -25,4 +25,4 @@ require (
 	golang.org/x/text v0.31.0 // indirect
 )
 
-replace github.com/sptGabriel/defaults => ../
+replace github.com/sptGabriel/gb-libs => ../

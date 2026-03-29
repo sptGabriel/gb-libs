@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sptGabriel/defaults/xotel"
+	"github.com/sptGabriel/gb-libs/xotel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"

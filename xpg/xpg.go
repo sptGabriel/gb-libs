@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/sptGabriel/defaults/config"
+	"github.com/sptGabriel/gb-libs/config"
 	"go.opentelemetry.io/otel/trace"
 )
 

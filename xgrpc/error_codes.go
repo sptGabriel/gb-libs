@@ -1,7 +1,7 @@
 package xgrpc
 
 import (
-	"github.com/sptGabriel/defaults/errs"
+	"github.com/sptGabriel/gb-libs/errs"
 	"google.golang.org/grpc/codes"
 )
 

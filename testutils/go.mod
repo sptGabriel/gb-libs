@@ -1,9 +1,9 @@
-module github.com/sptGabriel/defaults/testutils
+module github.com/sptGabriel/gb-libs/testutils
 
 go 1.25.0
 
 require (
-	github.com/sptGabriel/defaults v0.0.0
+	github.com/sptGabriel/gb-libs v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
 
@@ -65,4 +65,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/sptGabriel/defaults => ../
+replace github.com/sptGabriel/gb-libs => ../

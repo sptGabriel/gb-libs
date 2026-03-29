@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"reflect"
 
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/xlog"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"

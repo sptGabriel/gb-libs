@@ -151,7 +151,7 @@ jobs:
 
           ## Usage
           \`\`\`
-          go get github.com/sptGabriel/defaults/${module_prefix}@${new_tag}
+          go get github.com/sptGabriel/gb-libs/${module_prefix}@${new_tag}
           \`\`\`" \
               --latest=false
 

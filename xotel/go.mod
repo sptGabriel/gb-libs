@@ -1,10 +1,10 @@
-module github.com/sptGabriel/defaults/xotel
+module github.com/sptGabriel/gb-libs/xotel
 
 go 1.25.0
 
 require (
 	github.com/rabbitmq/amqp091-go v1.10.0
-	github.com/sptGabriel/defaults v0.0.0
+	github.com/sptGabriel/gb-libs v0.0.0
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.3.2
 	go.opentelemetry.io/contrib/bridges/otelslog v0.14.0
 	go.opentelemetry.io/otel v1.39.0
@@ -44,4 +44,4 @@ require (
 	google.golang.org/protobuf v1.36.10 // indirect
 )
 
-replace github.com/sptGabriel/defaults => ../
+replace github.com/sptGabriel/gb-libs => ../

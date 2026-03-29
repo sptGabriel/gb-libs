@@ -4,7 +4,7 @@ import (
 	"context"
 	"maps"
 
-	"github.com/sptGabriel/defaults/config"
+	"github.com/sptGabriel/gb-libs/config"
 	epb "google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

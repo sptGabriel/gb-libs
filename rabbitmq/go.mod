@@ -1,11 +1,11 @@
-module github.com/sptGabriel/defaults/rabbitmq
+module github.com/sptGabriel/gb-libs/rabbitmq
 
 go 1.25.0
 
 require (
 	github.com/rabbitmq/amqp091-go v1.10.0
-	github.com/sptGabriel/defaults v0.0.0
-	github.com/sptGabriel/defaults/xotel v0.0.0
+	github.com/sptGabriel/gb-libs v0.0.0
+	github.com/sptGabriel/gb-libs/xotel v0.0.0
 	go.opentelemetry.io/otel v1.39.0
 	go.opentelemetry.io/otel/trace v1.39.0
 	gorm.io/gorm v1.31.1
@@ -46,6 +46,6 @@ require (
 )
 
 replace (
-	github.com/sptGabriel/defaults => ../
-	github.com/sptGabriel/defaults/xotel => ../xotel
+	github.com/sptGabriel/gb-libs => ../
+	github.com/sptGabriel/gb-libs/xotel => ../xotel
 )

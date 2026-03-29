@@ -3,7 +3,7 @@ package xotel
 import (
 	"fmt"
 
-	"github.com/sptGabriel/defaults/config"
+	"github.com/sptGabriel/gb-libs/config"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"

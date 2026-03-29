@@ -3,7 +3,7 @@ package cqs
 import (
 	"context"
 
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/xlog"
 )
 
 func ValidationCommandInterceptor[C Command]() CommandInterceptor[C] {

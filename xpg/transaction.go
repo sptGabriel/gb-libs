@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	pgx "github.com/jackc/pgx/v5"
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/xlog"
 )
 
 type Tx interface {

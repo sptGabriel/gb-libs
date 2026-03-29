@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/rabbitmq/amqp091-go"
-	"github.com/sptGabriel/defaults/config"
+	"github.com/sptGabriel/gb-libs/config"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"

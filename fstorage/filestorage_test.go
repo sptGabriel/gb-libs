@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/sptGabriel/defaults/testutils"
+	"github.com/sptGabriel/gb-libs/testutils"
 	"github.com/stretchr/testify/suite"
 	"github.com/testcontainers/testcontainers-go/network"
 	"go.opentelemetry.io/otel"

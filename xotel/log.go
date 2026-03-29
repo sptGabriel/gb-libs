@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sptGabriel/defaults/config"
+	"github.com/sptGabriel/gb-libs/config"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp"
 	"go.opentelemetry.io/otel/sdk/log"

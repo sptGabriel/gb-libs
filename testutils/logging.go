@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/sptGabriel/defaults/xlog"
-	"github.com/sptGabriel/defaults/xlog/xslog"
+	"github.com/sptGabriel/gb-libs/xlog"
+	"github.com/sptGabriel/gb-libs/xlog/xslog"
 )
 
 type TestLogger struct {

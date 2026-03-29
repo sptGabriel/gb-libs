@@ -3,8 +3,8 @@ package rabbitmq
 import (
 	"context"
 
-	"github.com/sptGabriel/defaults/config"
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/config"
+	"github.com/sptGabriel/gb-libs/xlog"
 	"go.opentelemetry.io/otel/trace"
 	"gorm.io/gorm"
 )
