@@ -11,8 +11,8 @@ import (
 	"go.opentelemetry.io/otel/trace"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/sptGabriel/defaults/xlog"
-	"github.com/sptGabriel/defaults/xotel"
+	"github.com/sptGabriel/gb-libs/xlog"
+	"github.com/sptGabriel/gb-libs/xotel"
 )
 
 var (

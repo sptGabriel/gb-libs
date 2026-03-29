@@ -3,7 +3,7 @@ package xgorm
 import (
 	"fmt"
 
-	"github.com/sptGabriel/defaults/xotel"
+	"github.com/sptGabriel/gb-libs/xotel"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

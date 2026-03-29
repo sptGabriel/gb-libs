@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/xlog"
 )
 
 type Logger struct {

@@ -1,9 +1,9 @@
-module github.com/sptGabriel/defaults/xgorm
+module github.com/sptGabriel/gb-libs/xgorm
 
 go 1.25.0
 
 require (
-	github.com/sptGabriel/defaults/xotel v0.0.0
+	github.com/sptGabriel/gb-libs/xotel v0.0.0
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.1
 )
@@ -24,7 +24,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
-	github.com/sptGabriel/defaults v0.0.0 // indirect
+	github.com/sptGabriel/gb-libs v0.0.0 // indirect
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.3.2 // indirect
 	github.com/uptrace/opentelemetry-go-extra/otelsql v0.3.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
@@ -53,6 +53,6 @@ require (
 )
 
 replace (
-	github.com/sptGabriel/defaults => ../
-	github.com/sptGabriel/defaults/xotel => ../xotel
+	github.com/sptGabriel/gb-libs => ../
+	github.com/sptGabriel/gb-libs/xotel => ../xotel
 )

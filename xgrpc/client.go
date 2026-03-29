@@ -3,8 +3,8 @@ package xgrpc
 import (
 	"fmt"
 
-	"github.com/sptGabriel/defaults/config"
-	"github.com/sptGabriel/defaults/xlog"
+	"github.com/sptGabriel/gb-libs/config"
+	"github.com/sptGabriel/gb-libs/xlog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

@@ -1,10 +1,10 @@
-module github.com/sptGabriel/defaults/xgrpc
+module github.com/sptGabriel/gb-libs/xgrpc
 
 go 1.25.0
 
 require (
-	github.com/sptGabriel/defaults v0.0.0
-	github.com/sptGabriel/defaults/xotel v0.0.0
+	github.com/sptGabriel/gb-libs v0.0.0
+	github.com/sptGabriel/gb-libs/xotel v0.0.0
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.63.0
 	go.opentelemetry.io/otel v1.39.0
 	go.opentelemetry.io/otel/trace v1.39.0
@@ -47,6 +47,6 @@ require (
 )
 
 replace (
-	github.com/sptGabriel/defaults => ../
-	github.com/sptGabriel/defaults/xotel => ../xotel
+	github.com/sptGabriel/gb-libs => ../
+	github.com/sptGabriel/gb-libs/xotel => ../xotel
 )

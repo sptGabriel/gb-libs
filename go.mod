@@ -1,4 +1,4 @@
-module github.com/sptGabriel/defaults
+module github.com/sptGabriel/gb-libs
 
 go 1.25.0
 
