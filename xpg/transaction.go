@@ -18,9 +18,9 @@ type transactioner struct {
 
 func (t *transactioner) With(ctx context.Context, fn func(context.Context) error) error {
 	q := querierFromContext(ctx)
-
-	_, hasTx := q.(pgx.Tx)
-	if hasTx {
+	if q == nil {
+		ctx = withQuerier(ctx, t.db.Connection())
+	} else if _, hasTx := q.(pgx.Tx); hasTx {
 		return fn(ctx)
 	}
 

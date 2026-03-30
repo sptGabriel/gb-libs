@@ -44,7 +44,10 @@ func (d Database) With(ctx context.Context, fn func(context.Context) error) erro
 }
 
 func (d Database) Querier(ctx context.Context) Querier {
-	return querierFromContext(ctx)
+	if q := querierFromContext(ctx); q != nil {
+		return q
+	}
+	return d.pool
 }
 
 func (d Database) Close() {

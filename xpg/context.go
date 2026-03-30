@@ -16,5 +16,6 @@ func withQuerier(ctx context.Context, conn Querier) context.Context {
 }
 
 func querierFromContext(ctx context.Context) Querier {
-	return ctx.Value(ctxConn).(Querier)
+	q, _ := ctx.Value(ctxConn).(Querier)
+	return q
 }
