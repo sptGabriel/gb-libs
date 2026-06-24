@@ -12,7 +12,7 @@ import (
 
 func LoggingCommandInterceptor[C Command](tracer trace.Tracer) CommandInterceptor[C] {
 	return func(ctx context.Context, cmd C, next CommandNext[C]) error {
-		cmdName := typeName(cmd)
+		cmdName := typeName[C]()
 
 		xlog.DebugContext(
 			ctx,
