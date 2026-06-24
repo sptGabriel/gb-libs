@@ -35,7 +35,7 @@ func (b *CommandBus) Dispatch[C Command](ctx context.Context, cmd C) error {
 	return h.(CommandHandler[C]).Handle(ctx, cmd)
 }
 
-// QueryBus routes queries to their registered handlers.
+// QueryBus routes queries to registered handlers.
 // Register and Query are generic methods (Go 1.27).
 type QueryBus struct {
 	mu       sync.RWMutex
