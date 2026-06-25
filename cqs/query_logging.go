@@ -3,6 +3,8 @@ package cqs
 import (
 	"context"
 	"fmt"
+	"log/slog"
+	"reflect"
 
 	"github.com/sptGabriel/gb-libs/xlog"
 	"go.opentelemetry.io/otel/attribute"
@@ -10,13 +12,15 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func LoggingQueryInterceptor[Q any, R any](tracer trace.Tracer) QueryInterceptor[Q, R] {
+func LoggingQueryInterceptor[Q any, R any](
+	logger *slog.Logger,
+	tracer trace.Tracer,
+) QueryInterceptor[Q, R] {
 	return func(ctx context.Context, q Q, next Next[Q, R]) (R, error) {
-		qName := typeName[Q]()
+		var qType *Q
+		qName := reflect.TypeOf(qType).Elem().Name()
 		logger := xlog.FromContext(ctx)
-		if logger != nil {
-			logger.Debug("query handling started", "name", qName)
-		}
+		logger.Debug("query handling started", "name", qName)
 
 		ctx, span := tracer.Start(ctx, "query-handler")
 		defer span.End()
@@ -27,7 +31,7 @@ func LoggingQueryInterceptor[Q any, R any](tracer trace.Tracer) QueryInterceptor
 
 		out, err := next(ctx, q)
 		if err != nil {
-			xlog.ErrorContext(ctx, "query handling failed", "name", qName, "error", err)
+			logger.Error("query handling failed", "name", qName, "error", err)
 
 			span.RecordError(err)
 			span.SetStatus(codes.Error, fmt.Sprintf("%s handler error", qName))
@@ -36,7 +40,7 @@ func LoggingQueryInterceptor[Q any, R any](tracer trace.Tracer) QueryInterceptor
 			return zero, err
 		}
 
-		xlog.DebugContext(ctx, "query handling finished", "name", qName)
+		logger.Debug("query handling finished", "name", qName)
 
 		return out, nil
 	}

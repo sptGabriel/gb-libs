@@ -44,14 +44,11 @@ func Single[K Key, V Value](m map[K]V, f func(K, V) bool) (K, V, error) {
 		if found {
 			return *new(K), *new(V), ErrMultipleItemsFound
 		}
-
-		key = k
-		value = v
-		found = true
 	}
 
 	if !found {
 		return *new(K), *new(V), ErrNoSingleItemFound
+
 	}
 
 	return key, value, nil

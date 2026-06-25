@@ -12,7 +12,7 @@ func ValidationCommandInterceptor[C Command]() CommandInterceptor[C] {
 			xlog.DebugContext(
 				ctx,
 				"command validation failed.",
-				"name", typeName[C](),
+				"name", typeName(cmd),
 				"error", err,
 			)
 

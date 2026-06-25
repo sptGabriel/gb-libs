@@ -2,8 +2,11 @@ package cqs
 
 import "reflect"
 
-func typeName[T any]() string {
-	t := reflect.TypeFor[T]()
+func typeName(v any) string {
+	t := reflect.TypeOf(v)
+	if t == nil {
+		return "nil"
+	}
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
 	}

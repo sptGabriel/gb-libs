@@ -49,18 +49,3 @@ func (agg *Aggregate) AddEvent(event DomainEventer) error {
 func (agg *Aggregate) RemoveEvent(event DomainEventer) {
 	delete(agg.domainEvents, event.Id())
 }
-
-// EventsOf returns all domain events that can be asserted to type E,
-// sorted by creation date. Generic method requires Go 1.27.
-func (agg *Aggregate) EventsOf[E DomainEventer]() []E {
-	var result []E
-	for _, ev := range agg.domainEvents {
-		if typed, ok := any(ev).(E); ok {
-			result = append(result, typed)
-		}
-	}
-	slices.SortFunc(result, func(a, b E) int {
-		return a.CreatedAt().Compare(b.CreatedAt())
-	})
-	return result
-}
