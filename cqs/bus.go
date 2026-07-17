@@ -8,6 +8,8 @@ import (
 
 var ErrHandlerNotFound = errors.New("no handler registered for this type")
 
+// CommandBus dispatches commands to their registered handlers.
+// Register and Dispatch are generic methods (Go 1.27).
 type CommandBus struct {
 	mu       sync.RWMutex
 	handlers map[string]any
@@ -17,13 +19,13 @@ func NewCommandBus() *CommandBus {
 	return &CommandBus{handlers: make(map[string]any)}
 }
 
-func Register[C Command](b *CommandBus, h CommandHandler[C]) {
+func (b *CommandBus) Register[C Command](h CommandHandler[C]) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.handlers[typeName[C]()] = h
 }
 
-func Dispatch[C Command](b *CommandBus, ctx context.Context, cmd C) error {
+func (b *CommandBus) Dispatch[C Command](ctx context.Context, cmd C) error {
 	b.mu.RLock()
 	h, ok := b.handlers[typeName[C]()]
 	b.mu.RUnlock()
@@ -33,6 +35,8 @@ func Dispatch[C Command](b *CommandBus, ctx context.Context, cmd C) error {
 	return h.(CommandHandler[C]).Handle(ctx, cmd)
 }
 
+// QueryBus routes queries to registered handlers.
+// Register and Query are generic methods (Go 1.27).
 type QueryBus struct {
 	mu       sync.RWMutex
 	handlers map[string]any
@@ -42,13 +46,13 @@ func NewQueryBus() *QueryBus {
 	return &QueryBus{handlers: make(map[string]any)}
 }
 
-func RegisterQuery[Q any, R any](b *QueryBus, h QueryHandler[Q, R]) {
+func (b *QueryBus) Register[Q any, R any](h QueryHandler[Q, R]) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.handlers[typeName[Q]()] = h
 }
 
-func Query[Q any, R any](b *QueryBus, ctx context.Context, q Q) (R, error) {
+func (b *QueryBus) Query[Q any, R any](ctx context.Context, q Q) (R, error) {
 	b.mu.RLock()
 	h, ok := b.handlers[typeName[Q]()]
 	b.mu.RUnlock()

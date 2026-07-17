@@ -276,3 +276,55 @@ func Count[Slice ~[]Element, Element Iterable](s Slice, p func(Element) bool) in
 	}
 	return count
 }
+
+// Reduce applies f cumulatively to the elements of s, starting with initial,
+// returning the accumulated result.
+func Reduce[S ~[]E, E, R any](s S, initial R, f func(R, E) R) R {
+	acc := initial
+	for _, e := range s {
+		acc = f(acc, e)
+	}
+	return acc
+}
+
+// First returns the first element of s that satisfies f.
+// Returns ErrNoSingleItemFound if no element satisfies f.
+func First[S ~[]E, E Iterable](s S, f func(E) bool) (E, error) {
+	for _, e := range s {
+		if f(e) {
+			return e, nil
+		}
+	}
+	return *new(E), ErrNoSingleItemFound
+}
+
+// FirstOrDefault returns the first element of s that satisfies f, and true.
+// Returns the zero value and false if no element satisfies f.
+func FirstOrDefault[S ~[]E, E Iterable](s S, f func(E) bool) (E, bool) {
+	for _, e := range s {
+		if f(e) {
+			return e, true
+		}
+	}
+	return *new(E), false
+}
+
+// Flatten concatenates a slice of slices into a single slice.
+func Flatten[S ~[][]E, E any](s S) []E {
+	result := make([]E, 0)
+	for _, inner := range s {
+		result = append(result, inner...)
+	}
+	return result
+}
+
+// GroupBy groups elements of s by the key returned by keyFn,
+// returning a map from key to slice of elements with that key.
+func GroupBy[S ~[]E, E any, K comparable](s S, keyFn func(E) K) map[K][]E {
+	result := make(map[K][]E)
+	for _, e := range s {
+		k := keyFn(e)
+		result[k] = append(result[k], e)
+	}
+	return result
+}
