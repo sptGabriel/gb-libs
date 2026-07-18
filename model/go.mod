@@ -1,6 +1,6 @@
 module github.com/sptGabriel/gb-libs/model
 
-go 1.26.4
+go 1.27rc2
 
 require (
 	github.com/google/uuid v1.6.0

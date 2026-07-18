@@ -1,6 +1,6 @@
 module github.com/sptGabriel/gb-libs/fstorage
 
-go 1.26.4
+go 1.27rc2
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.39.0
