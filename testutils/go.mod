@@ -1,6 +1,6 @@
 module github.com/sptGabriel/gb-libs/testutils
 
-go 1.27rc2
+go 1.26.4
 
 require (
 	github.com/sptGabriel/gb-libs v0.0.0

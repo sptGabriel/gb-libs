@@ -1,6 +1,6 @@
 module github.com/sptGabriel/gb-libs/xotel
 
-go 1.27rc2
+go 1.26.4
 
 require (
 	github.com/rabbitmq/amqp091-go v1.10.0

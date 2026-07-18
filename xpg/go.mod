@@ -1,6 +1,6 @@
 module github.com/sptGabriel/gb-libs/xpg
 
-go 1.27rc2
+go 1.26.4
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.0
