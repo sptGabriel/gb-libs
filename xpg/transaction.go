@@ -7,15 +7,18 @@ import (
 	"sync"
 
 	pgx "github.com/jackc/pgx/v5"
+	"github.com/sptGabriel/gb-libs/cqs"
 	"github.com/sptGabriel/gb-libs/xlog"
 	"go.opentelemetry.io/otel/trace"
 )
 
 // Tx runs fn inside a transaction, committing when fn returns nil and
 // rolling back when it returns an error.
-type Tx interface {
-	With(ctx context.Context, fn func(context.Context) error) error
-}
+//
+// It is an alias, not a declaration of its own: the contract is the same one
+// every application port states, and it lives in cqs so that the interceptor
+// consuming it has a single home.
+type Tx = cqs.Tx
 
 // TxHandle controls the lifecycle of a transaction opened with Begin.
 type TxHandle interface {
