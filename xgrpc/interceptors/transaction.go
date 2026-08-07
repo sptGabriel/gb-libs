@@ -4,12 +4,13 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/sptGabriel/gb-libs/cqs"
 	"google.golang.org/grpc"
 )
 
-type Tx interface {
-	With(ctx context.Context, fn func(context.Context) error) error
-}
+// Tx is the same contract the command interceptor consumes — same one method,
+// same meaning — so it is taken from cqs instead of declared a third time.
+type Tx = cqs.Tx
 
 func UnaryPGXTransactionInterceptor(tx Tx, logger *slog.Logger) grpc.UnaryServerInterceptor {
 	return func(
